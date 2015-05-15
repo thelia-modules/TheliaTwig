@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<config xmlns="http://thelia.net/schema/dic/config"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://thelia.net/schema/dic/config http://thelia.net/schema/dic/config/thelia-1.0.xsd">
+
+    <parameters>
+        <parameter key="filesystem_loader.class">Twig_Loader_Filesystem</parameter>
+    </parameters>
+
+    <services>
+        <service id="filesystem_loader" class="%filesystem_loader.class%" />
+        <service id="thelia.parser" class="TheliaTwig\Template\TwigParser" scope="request">
+            <argument type="service" id="filesystem_loader"/>
+            <argument type="collection">
+                <argument key="debug">%kernel.debug%</argument>
+                <argument key="cache">%kernel.cache_dir%</argument>
+            </argument>
+        </service>
+
+        <service id="thelia.parser.core_extension" class="TheliaTwig\Template\Extension\TheliaCore">
+            <tag name="thelia.parser.add_extension" />
+        </service>
+
+        <service id="thelia.parser.helper" class="TheliaSmarty\Template\SmartyHelper" />
+        <service id="thelia.parser.asset.resolver" class="TheliaSmarty\Template\Assets\SmartyAssetsResolver" >
+            <argument type="service" id="assetic.asset.manager" />
+        </service>
+    </services>
+</config>

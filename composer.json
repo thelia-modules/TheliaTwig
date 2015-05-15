@@ -1,0 +1,12 @@
+{
+    "name": "thelia/twig-module",
+    "license": "LGPL-3.0+",
+    "type": "thelia-module",
+    "require": {
+        "thelia/installer": "~1.1",
+        "twig/twig": "~1.0"
+    },
+    "extra": {
+        "installer-name": "TheliaTwig"
+    }
+}
