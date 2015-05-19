@@ -29,6 +29,4 @@ class TheliaTwig extends BaseModule
             new RegisterTwigExtensionPass()
         ];
     }
-
-
 }

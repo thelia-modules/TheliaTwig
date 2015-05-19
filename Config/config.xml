@@ -6,6 +6,7 @@
 
     <parameters>
         <parameter key="filesystem_loader.class">Twig_Loader_Filesystem</parameter>
+        <parameter key="base_template_class">TheliaTwig\Template\Template</parameter>
     </parameters>
 
     <services>
@@ -16,9 +17,15 @@
                 <argument key="debug">%kernel.debug%</argument>
                 <argument key="cache">%kernel.cache_dir%</argument>
             </argument>
+            <!-- <argument type="service" id="service_container" /> -->
         </service>
 
-        <service id="thelia.parser.core_extension" class="TheliaTwig\Template\Extension\TheliaCore">
+        <service id="thelia.parser.loop_handler" class="TheliaTwig\Template\Elements\LoopHandler">
+            <argument type="service" id="service_container" />
+        </service>
+
+        <service id="thelia.parser.loop_extension" class="TheliaTwig\Template\Extension\Loop">
+            <argument type="service" id="thelia.parser.loop_handler" />
             <tag name="thelia.parser.add_extension" />
         </service>
 

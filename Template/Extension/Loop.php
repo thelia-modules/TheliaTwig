@@ -12,19 +12,27 @@
 
 namespace TheliaTwig\Template\Extension;
 
+use TheliaTwig\Template\Elements\LoopHandler;
+use TheliaTwig\Template\TokenParsers\Loop as LoopTokenParsers;
 
 /**
  * Class Loop
  * @package TheliaTwig\Template\Extension
  * @author Manuel Raynaud <manu@thelia.net>
  */
-class TheliaCore extends \Twig_Extension
+class Loop extends \Twig_Extension
 {
+    public $loopHandler;
+
+    public function __construct(LoopHandler $loopHandler)
+    {
+        $this->loopHandler = $loopHandler;
+    }
 
     public function getTokenParsers()
     {
         return [
-
+            new LoopTokenParsers()
         ];
     }
 
@@ -35,6 +43,6 @@ class TheliaCore extends \Twig_Extension
      */
     public function getName()
     {
-        return 'thelia_loop';
+        return 'loop';
     }
 }

@@ -16,7 +16,6 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
-
 /**
  * Class RegisterTwigExtensionPass
  * @package TheliaTwig\DependencyInjection\Compiler
@@ -43,18 +42,15 @@ class RegisterTwigExtensionPass implements CompilerPassInterface
         $extensions = [];
 
         foreach ($container->findTaggedServiceIds("thelia.parser.add_extension") as $id => $parameters) {
-
             $priority = isset($parameters['priority']) ? $parameters['priority'] : 128;
 
             $extensions[$priority][] = $id;
         }
 
         foreach ($extensions as $extension) {
-            array_walk($extension, function($id) use ($twig){
+            array_walk($extension, function ($id) use ($twig) {
                 $twig->addMethodCall("addExtension", array(new Reference($id)));
             });
-
         }
-
     }
 }

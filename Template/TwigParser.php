@@ -12,10 +12,11 @@
 
 namespace TheliaTwig\Template;
 
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Thelia\Core\Template\ParserInterface;
 use Thelia\Core\Template\TemplateDefinition;
 use Thelia\Log\Tlog;
-
 
 /**
  * Class TwigParser
@@ -48,9 +49,18 @@ class TwigParser extends \Twig_Environment implements ParserInterface
         if ($this->isDebug()) {
             $this->addExtension(new \Twig_Extension_Debug());
         }
-
-
     }
+
+/*    public function loadTemplate($name, $index = null)
+    {
+        $template = parent::loadTemplate($name, $index);
+        if ($template instanceof ContainerAwareInterface) {
+            $template->setContainer($this->container);
+        }
+
+        return $template;
+    }*/
+
 
     public function render($realTemplateName, array $parameters = array(), $compressOutput = true)
     {

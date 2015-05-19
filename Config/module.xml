@@ -4,7 +4,7 @@
         xsi:schemaLocation="http://thelia.net/schema/dic/module http://thelia.net/schema/dic/module/module-2_1.xsd">
     <fullnamespace>TheliaTwig\TheliaTwig</fullnamespace>
     <descriptive locale="en_US">
-        <title>Automatically generated module - please update module.xml file</title>
+        <title>Twig template engine integration</title>
         <!--
         <subtitle></subtitle>
         <description></description>
@@ -12,27 +12,19 @@
         -->
     </descriptive>
     <descriptive locale="fr_FR">
-        <title>Module généré autromatiquement - editez le fichier module.xml</title>
+        <title>Intégration du moteur de template twig</title>
     </descriptive>
     <!-- <logo></logo> -->
     <languages>
         <language>en_US</language>
         <language>fr_FR</language>
     </languages>
-    <version></version>
+    <version>0.1</version>
     <author>
-        <name></name>
-        <email></email>
+        <name>Manuel Raynaud</name>
+        <email>manu@thelia.net</email>
     </author>
     <type>classic</type>
-    <!--
-    module dependencies
-    <required>
-        <module version="&gt;=0.1">Front</module>
-        <module version="~1.0">HookCart</module>
-        <module version="&gt;0.2">HookSearch</module>
-    </required>
-    -->
     <thelia>2.1.0</thelia>
-    <stability>other</stability>
+    <stability>alpha</stability>
 </module>
