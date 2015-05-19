@@ -51,16 +51,6 @@ class TwigParser extends \Twig_Environment implements ParserInterface
         }
     }
 
-/*    public function loadTemplate($name, $index = null)
-    {
-        $template = parent::loadTemplate($name, $index);
-        if ($template instanceof ContainerAwareInterface) {
-            $template->setContainer($this->container);
-        }
-
-        return $template;
-    }*/
-
 
     public function render($realTemplateName, array $parameters = array(), $compressOutput = true)
     {

@@ -5,16 +5,10 @@
     <fullnamespace>TheliaTwig\TheliaTwig</fullnamespace>
     <descriptive locale="en_US">
         <title>Twig template engine integration</title>
-        <!--
-        <subtitle></subtitle>
-        <description></description>
-        <postscriptum></postscriptum>
-        -->
     </descriptive>
     <descriptive locale="fr_FR">
         <title>Intégration du moteur de template twig</title>
     </descriptive>
-    <!-- <logo></logo> -->
     <languages>
         <language>en_US</language>
         <language>fr_FR</language>
