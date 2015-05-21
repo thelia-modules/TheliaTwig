@@ -17,6 +17,7 @@ use TheliaTwig\DependencyInjection\Compiler\RegisterTwigExtensionPass;
 
 class TheliaTwig extends BaseModule
 {
+    const DOMAIN = 'theliatwig';
     /*
      * You may now override BaseModuleInterface methods, such as:
      * install, destroy, preActivation, postActivation, preDeactivation, postDeactivation

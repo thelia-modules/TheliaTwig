@@ -13,7 +13,9 @@
 namespace TheliaTwig\Template\Extension;
 
 use TheliaTwig\Template\Elements\LoopHandler;
+use TheliaTwig\Template\TokenParsers\IfLoop as IfLoopTokenParsers;
 use TheliaTwig\Template\TokenParsers\Loop as LoopTokenParsers;
+use TheliaTwig\Template\TokenParsers\ElseLoop as ElseLoopTokenParsers;
 
 /**
  * Class Loop
@@ -32,7 +34,9 @@ class Loop extends \Twig_Extension
     public function getTokenParsers()
     {
         return [
-            new LoopTokenParsers()
+            new LoopTokenParsers(),
+            new IfLoopTokenParsers(),
+            new ElseLoopTokenParsers()
         ];
     }
 

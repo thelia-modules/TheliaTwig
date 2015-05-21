@@ -12,31 +12,31 @@
 
 namespace TheliaTwig\Template\Node;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 /**
- * Class Loop
+ * Class IfLoop
  * @package TheliaTwig\Template\Node
  * @author Manuel Raynaud <manu@thelia.net>
  */
-class Loop extends BaseLoopNode
+class IfLoop extends BaseLoopNode
 {
+
+    public static $tmpNumber = 0;
 
     public function compile(\Twig_Compiler $compiler)
     {
         $compiler->addDebugInfo($this);
 
-        $compiler->write("\$repeat = true;\n");
-        $compiler->write("\$this->env->getExtension('loop')->loopHandler->loop(\$context, ");
-        $compiler->subcompile($this->getNode('parameters'));
-        $compiler->raw(", \$repeat, true, \$context);\n");
-        $compiler->write("while (\$repeat) {\n");
-        $compiler->indent();
+        $number = ++self::$tmpNumber;
+
+        $compiler->write("ob_start();\n");
         $compiler->subcompile($this->getNode('body'));
-        $compiler->write("\$repeat = false;\n");
-        $compiler->write("\$this->env->getExtension('loop')->loopHandler->loop(\$context, ");
+        $compiler->write("\$tmp$number = ob_get_clean();\n");
+
+        $compiler->write("if (false === \$this->env->getExtension('loop')->loopHandler->checkEmptyLoop(");
         $compiler->subcompile($this->getNode('parameters'));
-        $compiler->raw(", \$repeat, false, \$context);\n");
+        $compiler->raw(")) {\n");
+        $compiler->indent();
+        $compiler->write("echo \$tmp$number;\n");
         $compiler->outdent();
         $compiler->write("}\n");
     }

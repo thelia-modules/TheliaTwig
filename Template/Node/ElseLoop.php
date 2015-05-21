@@ -12,32 +12,23 @@
 
 namespace TheliaTwig\Template\Node;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 /**
- * Class Loop
+ * Class ElseLoop
  * @package TheliaTwig\Template\Node
  * @author Manuel Raynaud <manu@thelia.net>
  */
-class Loop extends BaseLoopNode
+class ElseLoop extends BaseLoopNode
 {
-
     public function compile(\Twig_Compiler $compiler)
     {
         $compiler->addDebugInfo($this);
 
-        $compiler->write("\$repeat = true;\n");
-        $compiler->write("\$this->env->getExtension('loop')->loopHandler->loop(\$context, ");
+        $compiler->write("if (true === \$this->env->getExtension('loop')->loopHandler->checkEmptyLoop(");
         $compiler->subcompile($this->getNode('parameters'));
-        $compiler->raw(", \$repeat, true, \$context);\n");
-        $compiler->write("while (\$repeat) {\n");
+        $compiler->raw(")) {\n");
         $compiler->indent();
         $compiler->subcompile($this->getNode('body'));
-        $compiler->write("\$repeat = false;\n");
-        $compiler->write("\$this->env->getExtension('loop')->loopHandler->loop(\$context, ");
-        $compiler->subcompile($this->getNode('parameters'));
-        $compiler->raw(", \$repeat, false, \$context);\n");
         $compiler->outdent();
-        $compiler->write("}\n");
+        $compiler->write("}");
     }
 }

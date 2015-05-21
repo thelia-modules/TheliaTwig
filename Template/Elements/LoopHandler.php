@@ -16,6 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Thelia\Core\Template\Element\Exception\ElementNotFoundException;
 use Thelia\Core\Template\Element\Exception\InvalidElementException;
 use Thelia\Core\Template\Element\LoopResult;
+use TheliaTwig\TheliaTwig;
 
 /**
  * Class Loop
@@ -49,9 +50,52 @@ class LoopHandler
         $this->translator = $container->get("thelia.translator");
     }
 
+
+    /**
+     * Check if a loop has returned results. The loop shoud have been executed before, or an
+     * InvalidArgumentException is thrown
+     *
+     * @param array $parameters
+     *
+     * @return boolean                   true if the loop is empty
+     * @throws \InvalidArgumentException
+     */
+    public function checkEmptyLoop($parameters)
+    {
+        $loopName = $this->getParam($parameters, 'rel');
+
+        if (null == $loopName) {
+            throw new \InvalidArgumentException(
+                $this->translator->trans("Missing 'rel' parameter in ifloop/elseloop arguments")
+            );
+        }
+
+        if (! isset($this->loopStack[$loopName])) {
+            throw new \InvalidArgumentException(
+                $this->translator->trans("Related loop name '%name'' is not defined.", ['%name' => $loopName])
+            );
+        }
+
+        return $this->loopStack[$loopName]->isEmpty();
+    }
+
     public function loop(&$context, $parameters, &$repeat, $first = false, $_context = null)
     {
         $name = $this->getParam($parameters, 'name');
+        if (null == $name) {
+            throw new \InvalidArgumentException(
+                $this->translator->trans("Missing 'name' parameter in loop arguments", [], TheliaTwig::DOMAIN)
+            );
+        }
+
+        $type = $this->getParam($parameters, 'type');
+
+        if (null == $type) {
+            throw new \InvalidArgumentException(
+                $this->translator->trans("Missing 'type' parameter in loop arguments", [], TheliaTwig::DOMAIN)
+            );
+        }
+
         if ($first) {
             $loop = $this->createLoopInstance($parameters);
             $pagination = 0;
@@ -79,7 +123,7 @@ class LoopHandler
             }
         }
 
-        if (false === $repeat) {
+        if (false === $repeat && isset($this->varStack[$name])) {
             $context = $this->varStack[$name];
             unset($this->varStack[$name]);
         }
@@ -107,7 +151,7 @@ class LoopHandler
 
         if (! isset($this->loopDefinition[$type])) {
             throw new ElementNotFoundException(
-                $this->translator->trans("Loop type '%type' is not defined.", ['%type' => $type])
+                $this->translator->trans("Loop type '%type' is not defined.", ['%type' => $type], TheliaTwig::DOMAIN)
             );
         }
 
@@ -115,7 +159,7 @@ class LoopHandler
 
         if ($class->isSubclassOf("Thelia\\Core\\Template\\Element\\BaseLoop") === false) {
             throw new InvalidElementException(
-                $this->translator->trans("'%type' loop class should extends Thelia\Core\Template\Element\BaseLoop", ['%type' => $type])
+                $this->translator->trans("'%type' loop class should extends Thelia\Core\Template\Element\BaseLoop", ['%type' => $type], TheliaTwig::DOMAIN)
             );
         }
 
