@@ -16,6 +16,7 @@ use TheliaTwig\Template\Elements\LoopHandler;
 use TheliaTwig\Template\TokenParsers\IfLoop as IfLoopTokenParsers;
 use TheliaTwig\Template\TokenParsers\Loop as LoopTokenParsers;
 use TheliaTwig\Template\TokenParsers\ElseLoop as ElseLoopTokenParsers;
+use TheliaTwig\Template\TokenParsers\PageLoop as PageLoopTokenParsers;
 
 /**
  * Class Loop
@@ -36,7 +37,8 @@ class Loop extends \Twig_Extension
         return [
             new LoopTokenParsers(),
             new IfLoopTokenParsers(),
-            new ElseLoopTokenParsers()
+            new ElseLoopTokenParsers(),
+            new PageLoopTokenParsers()
         ];
     }
 

@@ -6,7 +6,7 @@ This module use [Twig](http://twig.sensiolabs.org) template engine as parser for
 
 ### Installation
 
-You can only install this module with composer : 
+You can only install this module with composer :
 
 ```
 $ composer require thelia/twig-module:dev-master
@@ -14,7 +14,7 @@ $ composer require thelia/twig-module:dev-master
 
 ### Activation
 
-It is required to enabled this module with the cli tools and the disable TheliaSmarty module : 
+It is required to enable this module with the cli tools and then disable TheliaSmarty module :
 
 ```
 $ php Thelia module:refresh
@@ -27,9 +27,9 @@ $ php Thelia module:deactivate TheliaSmarty
 #### Loop
 
 loop feature is a Twig tag, you have to use it like a block. All loop's parameters use [literals](http://twig.sensiolabs.org/doc/templates.html#literals) syntax and are the same as the acutal parameters.
-The tag starts with ```loop``` and finished with ```endloop```
+The tag start with ```loop``` and finish with ```endloop```
 
-Exemple : 
+Exemple :
 
 ```
 <ul>
@@ -47,7 +47,7 @@ Exemple :
 
 #### Conditional loop
 
-Conditional loops are implemented. As for Smarty a ```ifloop``` can wrap a ```loop``` and can be used after the related loop. 
+Conditional loops are implemented. As for Smarty a ```ifloop``` can wrap a ```loop``` and can be used after the related loop.
 ```elseloop``` must be used after the related ```loop```
 
 ```
@@ -71,11 +71,34 @@ Conditional loops are implemented. As for Smarty a ```ifloop``` can wrap a ```lo
 {% endelseloop %}
 ```
 
+#### Paginated loop
+
+Paginated loop works exactly like paginated loop for Smarty, just the syntax change. See the official documentation for 
+all parameters : http://doc.thelia.net/en/documentation/loop/index.html#page-loop
+
+Syntax exemple : 
+
+```
+<p>Products Loop</p>
+<ul>
+{% loop {type:"product", name:"pagination", limit:"5", page:"3"} %}
+    <li>{{ TITLE }}</li>
+{% endloop %}
+</ul>
+
+<p>Pagination</p>
+<ul>
+{% pageloop {rel: "pagination"} %}
+    <li>{{ PAGE }} {% if CURRENT == PAGE %} current {% endif %} / last : {{ END }}</li>
+{% endpageloop %}
+</ul>
+```
+
 ### How to add your own extension
 
 The tag ```thelia.parser.add_extension``` allows you to add your own twig extension.
 
-Exemple : 
+Exemple :
 
 ```
 <service id="thelia.parser.loop_extension" class="TheliaTwig\Template\Extension\Loop">
@@ -88,7 +111,7 @@ Exemple :
 
 * ~~loop~~
 * ~~conditional loop~~
-* paginated loop
+* ~~paginated loop~~
 * Assetic integration
 * I18n support
 * Form support

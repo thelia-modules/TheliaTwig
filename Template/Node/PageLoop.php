@@ -12,32 +12,31 @@
 
 namespace TheliaTwig\Template\Node;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Twig_Compiler;
 
 /**
- * Class Loop
+ * Class PageLoop
  * @package TheliaTwig\Template\Node
  * @author Manuel Raynaud <manu@thelia.net>
  */
-class Loop extends BaseLoopNode
+class PageLoop extends BaseLoopNode
 {
-
-    public function compile(\Twig_Compiler $compiler)
+    public function compile(Twig_Compiler $compiler)
     {
         $compiler->addDebugInfo($this);
 
         $compiler->write("\$repeat = true;\n");
-        $compiler->write("\$this->env->getExtension('loop')->loopHandler->loop(\$context, ");
+        $compiler->write("\$this->env->getExtension('loop')->loopHandler->pageLoop(\$context, ");
         $compiler->subcompile($this->getNode('parameters'));
         $compiler->raw(", \$repeat, true, \$context);\n");
         $compiler->write("while (\$repeat) {\n");
         $compiler->indent();
         $compiler->subcompile($this->getNode('body'));
         $compiler->write("\$repeat = false;\n");
-        $compiler->write("\$this->env->getExtension('loop')->loopHandler->loop(\$context, ");
+        $compiler->write("\$this->env->getExtension('loop')->loopHandler->pageLoop(\$context, ");
         $compiler->subcompile($this->getNode('parameters'));
         $compiler->raw(", \$repeat, false);\n");
         $compiler->outdent();
-        $compiler->write("}\n");
+        $compiler->write("}");
     }
 }
