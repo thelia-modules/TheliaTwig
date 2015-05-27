@@ -94,6 +94,37 @@ Syntax exemple :
 </ul>
 ```
 
+### Url management
+
+### url
+
+url is a function. It generates an absolute url for a given path or file.
+
+```
+url($path, $parameters = array(), $current = false, $file = null, $noAmp = false, $target = null)
+```
+
+parameters : 
+
+Parameters | Description | Exemple
+--- | --- | ---
+path | The value of the path parameter is the route path you want to get as an URL | ```url("/product/")```
+file | The value of the file parameter is the absolute path (from /web) of a real file, that will be served by your web server, and not processed by Thelia | ```url(null,[], false, "file.pdf")```
+parameters | paremeters added to the query string | ```url("/product" ,{arg1:"val1", arg2:"val2"})```
+current | generate absolute URL grom the current URL | ```url(null ,[], true)```
+noAmp | escape all ```&``` as ```&amp;``` that may be present in the generated URL. | ```url("/product" ,[], false, null, true)```
+target | Add an anchor to the URL | ```url("/product" ,[], false, null, false, "cart")```
+
+Complete exemple : 
+
+```
+<p>
+    <a href="{{ url("/product/", {id: 2, arg1: "val1"}) }}">my link</a>
+</p>
+```
+
+generated link : http://domain.tld?id=2&arg1=val1
+
 ### How to add your own extension
 
 The tag ```thelia.parser.add_extension``` allows you to add your own twig extension.
@@ -116,6 +147,10 @@ Exemple :
 * I18n support
 * Form support
 * URL management
+    * ~~url function~~
+    * token_url function
+    * navigate function
+    * set_previous_url function
 * Hook support
 * date and money format
 * Firewall support

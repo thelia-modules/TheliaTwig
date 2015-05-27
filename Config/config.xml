@@ -27,6 +27,14 @@
             <tag name="thelia.parser.add_extension" />
         </service>
 
+        <service id="thelia.parser.url_extension" class="TheliaTwig\Template\Extension\Url" scope="request">
+            <argument type="service" id="request"/>
+            <argument type="service" id="thelia.token_provider"/>
+            <argument type="service" id="thelia.url.manager"/>
+            <argument type="service" id="thelia.translator"/>
+            <tag name="thelia.parser.add_extension" />
+        </service>
+
         <service id="thelia.parser.helper" class="TheliaSmarty\Template\SmartyHelper" />
         <service id="thelia.parser.asset.resolver" class="TheliaSmarty\Template\Assets\SmartyAssetsResolver" >
             <argument type="service" id="assetic.asset.manager" />
