@@ -73,10 +73,10 @@ Conditional loops are implemented. As for Smarty a ```ifloop``` can wrap a ```lo
 
 #### Paginated loop
 
-Paginated loop works exactly like paginated loop for Smarty, just the syntax change. See the official documentation for 
+Paginated loop works exactly like paginated loop for Smarty, just the syntax change. See the official documentation for
 all parameters : http://doc.thelia.net/en/documentation/loop/index.html#page-loop
 
-Syntax example : 
+Syntax example :
 
 ```
 <p>Products Loop</p>
@@ -104,7 +104,7 @@ url is a function. It generates an absolute url for a given path or file.
 url($path, $parameters = array(), $current = false, $file = null, $noAmp = false, $target = null)
 ```
 
-parameters : 
+parameters :
 
 Parameters | Description | example
 --- | --- | ---
@@ -115,7 +115,7 @@ current | generate absolute URL grom the current URL | ```url(null ,[], true)```
 noAmp | escape all ```&``` as ```&amp;``` that may be present in the generated URL. | ```url("/product" ,[], false, null, true)```
 target | Add an anchor to the URL | ```url("/product" ,[], false, null, false, "cart")```
 
-Complete example : 
+Complete example :
 
 ```
 <p>
@@ -145,7 +145,7 @@ return the current url
 current_url()
 ```
 
-**example** : 
+**example** :
 
 ```
 <a href="{{ current_url() }}">current link</a>
@@ -159,7 +159,7 @@ return the previous url saved in session
 previous_url
 ```
 
-**example** : 
+**example** :
 
 ```
 <a href="{{ previous_url() }}">previous link</a>
@@ -173,7 +173,7 @@ return the homepage url
 index_url()
 ```
 
-**example** : 
+**example** :
 
 ```
 <a href="{{ index_url() }}">index link</a>
@@ -198,7 +198,7 @@ The tag ```thelia.parser.add_extension``` allows you to add your own twig extens
 
 default_domain is a tag for defining the default translation domain. If defined you don't need to specify it when you want to translation a string in the current template.
 
-**Usage** : 
+**Usage** :
 
 ```
 {% default_domain "fo.default" %}
@@ -208,7 +208,7 @@ default_domain is a tag for defining the default translation domain. If defined 
 
 tag for defining a locale and don't use the locale stored in session.
 
-**Usage** : 
+**Usage** :
 
 ```
 {% default_locale "fr_FR" %}
@@ -222,7 +222,7 @@ function for string translation
 intl($id, $parameters = [], $domain = null, $locale = null)
 ```
 
-parameters : 
+parameters :
 
 Parameters | Description | example
 --- | --- | ---
@@ -231,7 +231,7 @@ parameters | variable use if a placeholder is used in the string to translate | 
 domain | message domain, will override domain defined with tag ```default_domain``` | ```{{ intl('secure payment', [], 'front') }}```
 locale | specific locale to use for this translation. Will override locale defined with tag ```default_locale``` and the locale defined in session | ```{{ intl('Secure payment', [], null, 'en_US') }}```
 
-**Complete example** : 
+**Complete example** :
 
 ```
 {% default_domain "fo.default" %}
@@ -239,7 +239,7 @@ locale | specific locale to use for this translation. Will override locale defin
 <p>
     translation : {{ intl('Secure payment', [], null, 'en_US') }} <br>
     translation 2 : {{ intl('Secure payment') }} <br>
-    translation 3 : {{ intl('Sorry, an error occurred: %s', {'%s': 'foo'}, 'front') }} <br>
+    translation 3 : {{ intl('Sorry, an error occurred: %error', {'%error': 'foo'}, 'front') }} <br>
 </p>
 ```
 
@@ -249,13 +249,13 @@ locale | specific locale to use for this translation. Will override locale defin
 * ~~conditional loop~~
 * ~~paginated loop~~
 * Assetic integration
-* I18n support
+* ~~I18n support~~
 * Form support
-* URL management
+* ~~URL management~~
     * ~~url function~~
-    * token_url function
-    * navigate function
-    * set_previous_url function
+    * ~~token_url function~~
+    * ~~navigate function~~
+    * ~~set_previous_url function~~
 * Hook support
 * date and money format
 * Firewall support
