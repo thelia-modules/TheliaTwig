@@ -125,6 +125,18 @@ Complete exemple :
 
 generated link : http://domain.tld?id=2&arg1=val1
 
+### url_token
+
+same as ```url``` function. This function just add a token paremeter in the url to prevent CSRF security issue.
+
+Exemple :
+
+```
+<a href="{{ url_token("/product/", {id: 2, arg1: "val1"}) }}">my tokenized link</a>
+```
+
+generated link : http://domain.tld?id=2&arg1=val1&_token=UniqueToken
+
 ### How to add your own extension
 
 The tag ```thelia.parser.add_extension``` allows you to add your own twig extension.

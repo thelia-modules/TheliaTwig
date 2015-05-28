@@ -44,19 +44,20 @@ class Url extends \Twig_Extension
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction("url", [$this, 'url'])
+            new \Twig_SimpleFunction("url", [$this, 'url']),
+            new \Twig_SimpleFunction("url_token", [$this, 'tokenUrl'])
         ];
     }
 
     /**
      * generates an absolute URL
      *
-     * @param string $path
-     * @param array $parameters
-     * @param bool $current
-     * @param null $file
-     * @param bool $noAmp
-     * @param null $target
+     * @param string $path The value of the path parameter is the route path you want to get as an URL
+     * @param array $parameters paremeters added to the query string
+     * @param bool $current generate absolute URL grom the current URL
+     * @param null $file The value of the file parameter is the absolute path (from /web) of a real file, that will be served by your web server, and not processed by Thelia
+     * @param bool $noAmp escape all & as &amp; that may be present in the generated URL.
+     * @param null $target Add an anchor to the URL
      * @return mixed|string
      */
     public function url($path, $parameters = array(), $current = false, $file = null, $noAmp = false, $target = null)
@@ -95,6 +96,33 @@ class Url extends \Twig_Extension
         }
 
         return $url;
+    }
+
+    /**
+     * generates an absolute URL
+     *
+     * @param string $path The value of the path parameter is the route path you want to get as an URL
+     * @param array $parameters paremeters added to the query string
+     * @param bool $current generate absolute URL grom the current URL
+     * @param null $file The value of the file parameter is the absolute path (from /web) of a real file, that will be served by your web server, and not processed by Thelia
+     * @param bool $noAmp escape all & as &amp; that may be present in the generated URL.
+     * @param null $target Add an anchor to the URL
+     * @return mixed|string
+     */
+    public function tokenUrl($path, $parameters = array(), $current = false, $file = null, $noAmp = false, $target = null)
+    {
+        $url = $this->url($path, $parameters, $current, $file, $noAmp, $target);
+        $token = $this->tokenProvider->assignToken();
+
+        $urlTokenParam = isset($parameters['url_param']) ? $parameters['url_param'] : '_token';
+
+        return $this->urlManager->absoluteUrl(
+            $url,
+            [
+                $urlTokenParam => $token
+            ]
+        );
+
     }
 
 
