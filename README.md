@@ -29,7 +29,7 @@ $ php Thelia module:deactivate TheliaSmarty
 loop feature is a Twig tag, you have to use it like a block. All loop's parameters use [literals](http://twig.sensiolabs.org/doc/templates.html#literals) syntax and are the same as the acutal parameters.
 The tag start with ```loop``` and finish with ```endloop```
 
-Exemple :
+example :
 
 ```
 <ul>
@@ -76,7 +76,7 @@ Conditional loops are implemented. As for Smarty a ```ifloop``` can wrap a ```lo
 Paginated loop works exactly like paginated loop for Smarty, just the syntax change. See the official documentation for 
 all parameters : http://doc.thelia.net/en/documentation/loop/index.html#page-loop
 
-Syntax exemple : 
+Syntax example : 
 
 ```
 <p>Products Loop</p>
@@ -106,7 +106,7 @@ url($path, $parameters = array(), $current = false, $file = null, $noAmp = false
 
 parameters : 
 
-Parameters | Description | Exemple
+Parameters | Description | example
 --- | --- | ---
 path | The value of the path parameter is the route path you want to get as an URL | ```url("/product/")```
 file | The value of the file parameter is the absolute path (from /web) of a real file, that will be served by your web server, and not processed by Thelia | ```url(null,[], false, "file.pdf")```
@@ -115,7 +115,7 @@ current | generate absolute URL grom the current URL | ```url(null ,[], true)```
 noAmp | escape all ```&``` as ```&amp;``` that may be present in the generated URL. | ```url("/product" ,[], false, null, true)```
 target | Add an anchor to the URL | ```url("/product" ,[], false, null, false, "cart")```
 
-Complete exemple : 
+Complete example : 
 
 ```
 <p>
@@ -129,7 +129,7 @@ generated link : http://domain.tld?id=2&arg1=val1
 
 same as ```url``` function. This function just add a token paremeter in the url to prevent CSRF security issue.
 
-Exemple :
+Example :
 
 ```
 <a href="{{ url_token("/product/", {id: 2, arg1: "val1"}) }}">my tokenized link</a>
@@ -137,11 +137,53 @@ Exemple :
 
 generated link : http://domain.tld?id=2&arg1=val1&_token=UniqueToken
 
+### current_url
+
+return the current url
+
+```
+current_url()
+```
+
+Example : 
+
+```
+<a href="{{ current_url() }}">current link</a>
+```
+
+### previous_url
+
+return the previous url saved in session
+
+```
+previous_url
+```
+
+Example : 
+
+```
+<a href="{{ previous_url() }}">previous link</a>
+```
+
+### index_url
+
+return the homepage url
+
+```
+index_url()
+```
+
+Example : 
+
+```
+<a href="{{ index_url() }}">index link</a>
+```
+
 ### How to add your own extension
 
 The tag ```thelia.parser.add_extension``` allows you to add your own twig extension.
 
-Exemple :
+example :
 
 ```
 <service id="thelia.parser.loop_extension" class="TheliaTwig\Template\Extension\Loop">

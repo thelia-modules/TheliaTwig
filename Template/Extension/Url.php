@@ -45,8 +45,35 @@ class Url extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFunction("url", [$this, 'url']),
-            new \Twig_SimpleFunction("url_token", [$this, 'tokenUrl'])
+            new \Twig_SimpleFunction("url_token", [$this, 'tokenUrl']),
+            new \Twig_SimpleFunction("current_url", [$this, 'currentUrl']),
+            new \Twig_SimpleFunction("previous_url", [$this, 'currentUrl']),
+            new \Twig_SimpleFunction("index_url", [$this, 'currentUrl']),
         ];
+    }
+
+    /**
+     * @return string return the current url
+     */
+    public function currentUrl()
+    {
+        return $this->request->getUri();
+    }
+
+    /**
+     * @return string return the previous url
+     */
+    protected function previousUrl()
+    {
+        return $this->urlManager->absoluteUrl($this->request->getSession()->getReturnToUrl());
+    }
+
+    /**
+     * @return string return the home url
+     */
+    protected function indexUrl()
+    {
+        return $this->urlManager->getIndexPage();
     }
 
     /**
