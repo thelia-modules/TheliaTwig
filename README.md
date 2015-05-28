@@ -29,7 +29,7 @@ $ php Thelia module:deactivate TheliaSmarty
 loop feature is a Twig tag, you have to use it like a block. All loop's parameters use [literals](http://twig.sensiolabs.org/doc/templates.html#literals) syntax and are the same as the acutal parameters.
 The tag start with ```loop``` and finish with ```endloop```
 
-example :
+**example** :
 
 ```
 <ul>
@@ -96,7 +96,7 @@ Syntax example :
 
 ### Url management
 
-### url
+#### url
 
 url is a function. It generates an absolute url for a given path or file.
 
@@ -125,11 +125,11 @@ Complete example :
 
 generated link : http://domain.tld?id=2&arg1=val1
 
-### url_token
+#### url_token
 
 same as ```url``` function. This function just add a token paremeter in the url to prevent CSRF security issue.
 
-Example :
+**example** :
 
 ```
 <a href="{{ url_token("/product/", {id: 2, arg1: "val1"}) }}">my tokenized link</a>
@@ -137,7 +137,7 @@ Example :
 
 generated link : http://domain.tld?id=2&arg1=val1&_token=UniqueToken
 
-### current_url
+#### current_url
 
 return the current url
 
@@ -145,13 +145,13 @@ return the current url
 current_url()
 ```
 
-Example : 
+**example** : 
 
 ```
 <a href="{{ current_url() }}">current link</a>
 ```
 
-### previous_url
+#### previous_url
 
 return the previous url saved in session
 
@@ -159,13 +159,13 @@ return the previous url saved in session
 previous_url
 ```
 
-Example : 
+**example** : 
 
 ```
 <a href="{{ previous_url() }}">previous link</a>
 ```
 
-### index_url
+#### index_url
 
 return the homepage url
 
@@ -173,7 +173,7 @@ return the homepage url
 index_url()
 ```
 
-Example : 
+**example** : 
 
 ```
 <a href="{{ index_url() }}">index link</a>
@@ -183,13 +183,64 @@ Example :
 
 The tag ```thelia.parser.add_extension``` allows you to add your own twig extension.
 
-example :
+**example** :
 
 ```
 <service id="thelia.parser.loop_extension" class="TheliaTwig\Template\Extension\Loop">
     <argument type="service" id="thelia.parser.loop_handler" />
     <tag name="thelia.parser.add_extension" />
 </service>
+```
+
+### Translation
+
+#### default_domain
+
+default_domain is a tag for defining the default translation domain. If defined you don't need to specify it when you want to translation a string in the current template.
+
+**Usage** : 
+
+```
+{% default_domain "fo.default" %}
+```
+
+#### default_locale
+
+tag for defining a locale and don't use the locale stored in session.
+
+**Usage** : 
+
+```
+{% default_locale "fr_FR" %}
+```
+
+#### intl
+
+function for string translation
+
+```
+intl($id, $parameters = [], $domain = null, $locale = null)
+```
+
+parameters : 
+
+Parameters | Description | example
+--- | --- | ---
+id | the string to translate | ```intl('secure payment')```
+parameters | variable use if a placeholder is used in the string to translate | ```intl('secure payment %payment', {'%payment' => 'atos'})``` => secure payment atos
+domain | message domain, will override domain defined with tag ```default_domain``` | ```{{ intl('secure payment', [], 'front') }}```
+locale | specific locale to use for this translation. Will override locale defined with tag ```default_locale``` and the locale defined in session | ```{{ intl('Secure payment', [], null, 'en_US') }}```
+
+**Complete example** : 
+
+```
+{% default_domain "fo.default" %}
+{% default_locale "fr_FR" %}
+<p>
+    translation : {{ intl('Secure payment', [], null, 'en_US') }} <br>
+    translation 2 : {{ intl('Secure payment') }} <br>
+    translation 3 : {{ intl('Sorry, an error occurred: %s', {'%s': 'foo'}, 'front') }} <br>
+</p>
 ```
 
 ### Roadmap

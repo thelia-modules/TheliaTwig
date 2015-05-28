@@ -35,6 +35,11 @@
             <tag name="thelia.parser.add_extension" />
         </service>
 
+        <service id="thelia.parser.translation_extension" class="TheliaTwig\Template\Extension\Translation">
+            <argument type="service" id="thelia.translator"/>
+            <tag name="thelia.parser.add_extension" />
+        </service>
+
         <service id="thelia.parser.helper" class="TheliaSmarty\Template\SmartyHelper" />
         <service id="thelia.parser.asset.resolver" class="TheliaSmarty\Template\Assets\SmartyAssetsResolver" >
             <argument type="service" id="assetic.asset.manager" />
