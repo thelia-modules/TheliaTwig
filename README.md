@@ -296,9 +296,9 @@ Check if the delivery module and address are valid, redirects to the route "orde
     * ~~set_previous_url function~~
 * Hook support
 * date and money format
-* Firewall support
+* cart postage
 * DataAccessFunction
-* Security
-    * checkAuth
-    * checkCartNotEmpty
-    * checkValidDelivery
+* ~~Security~~
+    * ~~checkAuth~~
+    * ~~checkCartNotEmpty~~
+    * ~~checkValidDelivery~~
