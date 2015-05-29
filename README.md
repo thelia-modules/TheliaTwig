@@ -273,6 +273,14 @@ This tag checks if the customer's cart is empty, and redirects to the route "car
 {% check_cart_not_empty %}
 ```
 
+#### check_valid_delivery
+
+Check if the delivery module and address are valid, redirects to the route "order.delivery" if not.
+
+```
+{% check_valid_delivery %}
+```
+
 ### Roadmap
 
 * ~~loop~~

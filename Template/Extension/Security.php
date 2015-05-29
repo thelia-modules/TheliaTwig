@@ -18,8 +18,11 @@ use Thelia\Core\Security\Exception\AuthenticationException;
 use Thelia\Core\Security\Exception\AuthorizationException;
 use Thelia\Core\Security\SecurityContext;
 use Thelia\Exception\OrderException;
+use Thelia\Model\AddressQuery;
+use Thelia\Model\ModuleQuery;
 use TheliaTwig\Template\TokenParsers\Auth;
 use TheliaTwig\Template\TokenParsers\EmptyCart;
+use TheliaTwig\Template\TokenParsers\ValidDelivery;
 
 /**
  * Class Security
@@ -43,8 +46,25 @@ class Security extends BaseExtension
     {
         return [
             new Auth(),
-            new EmptyCart()
+            new EmptyCart(),
+            new ValidDelivery()
         ];
+    }
+
+    public function checkValidDelivery()
+    {
+        $order = $this->request->getSession()->getOrder();
+        /* Does address and module still exists ? We assume address owner can't change neither module type */
+        if ($order !== null) {
+            $checkAddress = AddressQuery::create()->findPk($order->getChoosenDeliveryAddress());
+            $checkModule = ModuleQuery::create()->findPk($order->getDeliveryModuleId());
+        } else {
+            $checkAddress = $checkModule = null;
+        }
+
+        if (null === $order || null == $checkAddress || null === $checkModule) {
+            throw new OrderException('Delivery must be defined', OrderException::UNDEFINED_DELIVERY, array('missing' => 1));
+        }
     }
 
     public function checkEmptyCart()
