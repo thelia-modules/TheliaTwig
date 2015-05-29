@@ -224,7 +224,7 @@ intl($id, $parameters = [], $domain = null, $locale = null)
 
 parameters :
 
-Parameters | Description | example
+Parameters | Description | Example
 --- | --- | ---
 id | the string to translate | ```intl('secure payment')```
 parameters | variable use if a placeholder is used in the string to translate | ```intl('secure payment %payment', {'%payment' => 'atos'})``` => secure payment atos
@@ -243,6 +243,28 @@ locale | specific locale to use for this translation. Will override locale defin
 </p>
 ```
 
+### Security
+
+#### checkAuth
+
+tag checking if a user has access granted.
+
+example : 
+
+```
+{% auth {role: "CUSTOMER", login_tpl:"login"} %}
+```
+
+Parameters : 
+
+Parameters | Description
+--- | --- 
+role | In Thelia 2, a user can only have one of these two roles: ADMIN and/or CUSTOMER
+resource | if a user can access to a specific resource. See : http://doc.thelia.net/en/documentation/templates/security.html#resource
+module | Name of the module(s) which the user must have access
+access | access mode : CREATE, VIEW, UPDATE, DELETE
+login_tpl |This argument is the name of the view name (the login page is "login"). If the user is not granted and this argument is defined, it redirects to this view.
+
 ### Roadmap
 
 * ~~loop~~
@@ -260,3 +282,7 @@ locale | specific locale to use for this translation. Will override locale defin
 * date and money format
 * Firewall support
 * DataAccessFunction
+* Security
+    * checkAuth
+    * checkCartNotEmpty
+    * checkValidDelivery

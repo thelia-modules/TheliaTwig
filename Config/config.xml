@@ -40,6 +40,13 @@
             <tag name="thelia.parser.add_extension" />
         </service>
 
+        <service id="thelia.parser.security_extension" class="TheliaTwig\Template\Extension\Security" scope="request">
+            <argument type="service" id="request" />
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="thelia.securityContext" />
+            <tag name="thelia.parser.add_extension" />
+        </service>
+
         <service id="thelia.parser.helper" class="TheliaSmarty\Template\SmartyHelper" />
         <service id="thelia.parser.asset.resolver" class="TheliaSmarty\Template\Assets\SmartyAssetsResolver" >
             <argument type="service" id="assetic.asset.manager" />
