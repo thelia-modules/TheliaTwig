@@ -17,7 +17,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Thelia\Core\Security\Exception\AuthenticationException;
 use Thelia\Core\Security\Exception\AuthorizationException;
 use Thelia\Core\Security\SecurityContext;
+use Thelia\Exception\OrderException;
 use TheliaTwig\Template\TokenParsers\Auth;
+use TheliaTwig\Template\TokenParsers\EmptyCart;
 
 /**
  * Class Security
@@ -40,8 +42,17 @@ class Security extends BaseExtension
     public function getTokenParsers()
     {
         return [
-            new Auth()
+            new Auth(),
+            new EmptyCart()
         ];
+    }
+
+    public function checkEmptyCart()
+    {
+        $cart = $this->request->getSession()->getSessionCart($this->dispatcher);
+        if ($cart===null || $cart->countCartItems() == 0) {
+            throw new OrderException('Cart must not be empty', OrderException::CART_EMPTY, array('empty' => 1));
+        }
     }
 
     public function checkAuth($parameters)

@@ -245,7 +245,7 @@ locale | specific locale to use for this translation. Will override locale defin
 
 ### Security
 
-#### checkAuth
+#### auth
 
 tag checking if a user has access granted.
 
@@ -264,6 +264,14 @@ resource | if a user can access to a specific resource. See : http://doc.thelia.
 module | Name of the module(s) which the user must have access
 access | access mode : CREATE, VIEW, UPDATE, DELETE
 login_tpl |This argument is the name of the view name (the login page is "login"). If the user is not granted and this argument is defined, it redirects to this view.
+
+#### check_cart_not_empty
+
+This tag checks if the customer's cart is empty, and redirects to the route "cart.view" if it is.
+
+```
+{% check_cart_not_empty %}
+```
 
 ### Roadmap
 
