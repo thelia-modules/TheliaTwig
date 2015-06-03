@@ -14,6 +14,7 @@ namespace TheliaTwig\Template;
 
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Thelia\Core\Template\ParserContext;
 use Thelia\Core\Template\ParserInterface;
 use Thelia\Core\Template\TemplateDefinition;
 use Thelia\Log\Tlog;
@@ -36,12 +37,15 @@ class TwigParser extends \Twig_Environment implements ParserInterface
 
     protected $templateDirectories = array();
 
+    /** @var ParserContext  */
+    protected $parserContext;
+
     /**
      * @var TemplateDefinition
      */
     protected $templateDefinition = "";
 
-    public function __construct(\Twig_LoaderInterface $loader = null, $options = array())
+    public function __construct(ParserContext $parserContext, \Twig_LoaderInterface $loader = null, $options = array())
     {
         $this->fileSystemLoader = $loader;
         parent::__construct(null, $options);
@@ -49,6 +53,8 @@ class TwigParser extends \Twig_Environment implements ParserInterface
         if ($this->isDebug()) {
             $this->addExtension(new \Twig_Extension_Debug());
         }
+
+        $this->parserContext = $parserContext;
     }
 
 
@@ -57,19 +63,32 @@ class TwigParser extends \Twig_Environment implements ParserInterface
         if (substr($realTemplateName, strlen($realTemplateName)-4) != "twig") {
             $realTemplateName .= ".twig";
         }
-        $parameters = array_merge($parameters, $this->context);
+        $parameters = $this->mergeParameters($parameters);
         $this->setLoader($this->fileSystemLoader);
         return parent::render($realTemplateName, $parameters);
     }
 
     public function renderString($templateText, array $parameters = array(), $compressOutput = true)
     {
-        $parameters = array_merge($parameters, $this->context);
+        $parameters = $this->mergeParameters($parameters);
         $loader = new \Twig_Loader_Array(
             ['index.html' => $templateText]
         );
         $this->setLoader($loader);
         return parent::render('index.html', $parameters);
+    }
+
+    /**
+     * @param array $parameters
+     * @return array
+     */
+    protected function mergeParameters(array $parameters)
+    {
+        foreach ($this->parserContext as $var => $value) {
+            $this->assign($var, $value);
+        }
+
+        return array_merge($parameters, $this->context);
     }
 
     public function getStatus()

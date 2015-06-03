@@ -281,6 +281,169 @@ Check if the delivery module and address are valid, redirects to the route "orde
 {% check_valid_delivery %}
 ```
 
+### data access functions
+
+All data access function allow to access to a specific property of an entity. For some of them through an id present in the query string, for others through
+data saved in session
+
+#### admin
+
+Provides access to the current logged administrator attributes using the accessors.
+
+```
+<p>
+    admin firstname : {{ admin('firstname') }}
+</p>
+```
+
+#### brand
+
+Provides access to an attribute of the current brand (brand_id parameter in the query string). If the product_id is in the query string,
+the brand function will find the brand linked to the product.
+
+```
+<p>
+    brand title : {{ brand('title') }}
+</p>
+```
+
+#### cart
+
+list of implemented parameters : 
+
+* count_product : number of products in the current cart
+* count_item : addition off all quantity for each products
+* total_price : total amount without taxes
+* total_taxed_price : total amount with taxes
+* total_taxed_price_without_discount : total amount with taxes and without discount
+* is_virtual : if cart contains or not virutal products
+* total_vat : tax amount
+
+example : 
+
+```
+<p>
+    number of products : {{ cart('count_product') }}
+</p>
+```
+
+#### category
+
+Provides access to an attribute of the current category (category_id parameter is the query string). If the product_id is in the query string,
+the default category linked to this product is used.
+
+```
+<p>
+    Category title : {{ category('title') }}
+</p>
+```
+
+#### config
+
+return the value of a wanted configuration key. Default as second parameter if the key does not exists.
+
+```
+<p>
+    default front office template : {{ config('active-front-template', 'default') }}
+</p>
+```
+
+#### content
+
+Provides access to an attribute of the current content (content_id in the query string).
+
+```
+<p>
+    content title : {{ content('title') }}
+</p>
+```
+
+#### country
+
+Provides access to an attribute for the default country
+
+```
+<p>
+    iso alpha2 code : {{ country('isoalpha2') }}
+</p>
+```
+
+#### currency
+
+Provides access to an attribute of the current currency (saved in session)
+
+```
+<p>
+    currency symbol : {{ currency('symbol') }}
+</p>
+```
+
+#### customer
+
+Provides access to an attribute of the logged customer
+
+```
+<p>
+    customer first name : {{ customer('firstname') }}
+</p>
+```
+
+#### folder
+
+ Provides access to an attribute of the current folder (folder_id in the query string). If the content_id parameter is in the query string, 
+ the default linked folder will be used.
+ 
+ ```
+ <p>
+    folder title : {{ folder('title') }}
+ </p>
+ ```
+ 
+#### lang
+ 
+Provides access to an attribute of the current lang saved in session
+
+```
+<p>
+    locale : {{ lang('locale') }}
+</p>
+```
+
+#### order
+
+Provides access to an attribute of the current order
+
+list of implemented parameters :
+
+* untaxed_postage : postage cost without taxes
+* postage : postage cost
+* postage_tax : postage tax amount
+* discount : discount amount
+* delivery_address : delivery address id
+* invoice_address : invoice address id
+* delivery_module : delivery module id
+* payment_module : payment module id
+* has_virtual_product : if order contains at least one virtual product
+
+example : 
+
+```
+<p>
+    discount amount : {{ order('discount') }}
+</p>
+```
+
+#### product
+
+Provides access to an attribute of the current product (product_id parameter in query string)
+
+```
+<p>
+    product title : {{ product('title') }}
+</p>
+```
+
+
 ### Roadmap
 
 * ~~loop~~
@@ -297,7 +460,20 @@ Check if the delivery module and address are valid, redirects to the route "orde
 * Hook support
 * date and money format
 * cart postage
-* DataAccessFunction
+* ~~DataAccessFunction~~
+    * ~~admin~~
+    * ~~brand~~
+    * ~~cart~~
+    * ~~category~~
+    * ~~config~~
+    * ~~content~~
+    * ~~country~~
+    * ~~currency~~
+    * ~~customer~~
+    * ~~folder~~
+    * ~~lang~~
+    * ~~order~~
+    * ~~product~~
 * ~~Security~~
     * ~~checkAuth~~
     * ~~checkCartNotEmpty~~

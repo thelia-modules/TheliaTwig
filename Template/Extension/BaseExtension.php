@@ -12,7 +12,6 @@
 
 namespace TheliaTwig\Template\Extension;
 
-
 /**
  * Class BaseExtension
  * @package TheliaTwig\Template\Extension
@@ -64,5 +63,4 @@ abstract class BaseExtension extends \Twig_Extension
 
         return $default;
     }
-
 }

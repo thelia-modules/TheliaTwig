@@ -13,6 +13,7 @@
 namespace TheliaTwig\Template\TokenParsers;
 
 use TheliaTwig\Template\Node\TranslationLocale as TranslationLocaleNode;
+
 /**
  * Class TranslationLocale
  * @package TheliaTwig\Template\TokenParsers

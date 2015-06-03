@@ -10,7 +10,9 @@
 
     <services>
         <service id="filesystem_loader" class="%filesystem_loader.class%" />
+
         <service id="thelia.parser" class="TheliaTwig\Template\TwigParser" scope="request">
+            <argument type="service" id="thelia.parser.context" />
             <argument type="service" id="filesystem_loader"/>
             <argument type="collection">
                 <argument key="debug">%kernel.debug%</argument>
@@ -44,6 +46,15 @@
             <argument type="service" id="request" />
             <argument type="service" id="event_dispatcher"/>
             <argument type="service" id="thelia.securityContext" />
+            <tag name="thelia.parser.add_extension" />
+        </service>
+
+        <service id="thelia.parser.dataAccess" class="TheliaTwig\Template\Extension\DataAccessFunction" scope="request">
+            <argument type="service" id="request" />
+            <argument type="service" id="thelia.securityContext" />
+            <argument type="service" id="thelia.taxEngine" />
+            <argument type="service" id="thelia.parser.context"/>
+            <argument type="service" id="event_dispatcher"/>
             <tag name="thelia.parser.add_extension" />
         </service>
 

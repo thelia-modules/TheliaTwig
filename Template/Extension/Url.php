@@ -149,7 +149,6 @@ class Url extends \Twig_Extension
                 $urlTokenParam => $token
             ]
         );
-
     }
 
 
