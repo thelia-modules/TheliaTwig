@@ -179,19 +179,6 @@ index_url()
 <a href="{{ index_url() }}">index link</a>
 ```
 
-### How to add your own extension
-
-The tag ```thelia.parser.add_extension``` allows you to add your own twig extension.
-
-**example** :
-
-```
-<service id="thelia.parser.loop_extension" class="TheliaTwig\Template\Extension\Loop">
-    <argument type="service" id="thelia.parser.loop_handler" />
-    <tag name="thelia.parser.add_extension" />
-</service>
-```
-
 ### Translation
 
 #### default_domain
@@ -464,6 +451,20 @@ Inside the ```postage``` block this variables are defined :
 {% postage %}
     postage : {{ postage ~ currency('symbol') }}
 {% endpostage %}
+```
+
+
+### How to add your own extension
+
+The tag ```thelia.parser.add_extension``` allows you to add your own twig extension.
+
+**example** :
+
+```
+<service id="thelia.parser.loop_extension" class="TheliaTwig\Template\Extension\Loop">
+    <argument type="service" id="thelia.parser.loop_handler" />
+    <tag name="thelia.parser.add_extension" />
+</service>
 ```
 
 ### Roadmap
