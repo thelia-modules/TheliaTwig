@@ -443,6 +443,28 @@ Provides access to an attribute of the current product (product_id parameter in 
 </p>
 ```
 
+### Cart postage
+
+retrieves the postage amount of the current cart if it exists.
+
+Thelia uses the following rules to select the country :
+
+* the country of the delivery address of the customer related to the cart if it exists
+* the country saved in cookie if customer have changed the default country
+* the default country for the shop if it exists
+
+Inside the ```postage``` block this variables are defined :
+
+* country_id: the country id or null
+* delivery_id: the delivery id or null
+* postage: the postage amount or 0.0
+* is_customizable: indicate if the postage can be customized. False When customer is signed and have a valid delivery address
+
+```
+{% postage %}
+    postage : {{ postage ~ currency('symbol') }}
+{% endpostage %}
+```
 
 ### Roadmap
 
@@ -459,7 +481,7 @@ Provides access to an attribute of the current product (product_id parameter in 
     * ~~set_previous_url function~~
 * Hook support
 * date and money format
-* cart postage
+* ~~cart postage~~
 * ~~DataAccessFunction~~
     * ~~admin~~
     * ~~brand~~
