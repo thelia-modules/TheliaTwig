@@ -4,6 +4,23 @@ This module use [Twig](http://twig.sensiolabs.org) template engine as parser for
 
 **This module is not stable and is still in development. See the RoadMap if you want to know which features are missing**
 
+###Summary : 
+
+* [Installation](#installation)
+* [Activation](#activation)
+* [Usage](#usage)
+* [Syntax](#syntax)
+    * [Loop](#loop)
+    * [Conditional loop](#conditional-loop)
+    * [Paginated loop](#paginated-loop)
+    * [URL management](#url-management)
+    * [Translation](#translation)
+    * [Security](#security)
+    * [Data access functions](#data-access-functions)
+    * [Cart postage](#cart-postage)
+* [Add your own twig extension](#how-to-add-your-own-extension)
+* [Roadmap](#roadmap)
+
 ### Installation
 
 You can only install this module with composer :
@@ -21,6 +38,12 @@ $ php Thelia module:refresh
 $ php Thelia module:activate TheliaTwig
 $ php Thelia module:deactivate TheliaSmarty
 ```
+
+### Usage
+
+Template files must be suffixed by ```.twig```, for example ```index.html.twig``` 
+
+The template structure is the same as the actual structure, so you can referer to the actual [documentation](http://doc.thelia.net/en/documentation/templates/introduction.html#structure-of-a-template)
 
 ### Syntax
 
