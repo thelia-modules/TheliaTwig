@@ -4,7 +4,7 @@ This module use [Twig](http://twig.sensiolabs.org) template engine as parser for
 
 **This module is not stable and is still in development. See the RoadMap if you want to know which features are missing**
 
-###Summary : 
+###Summary :
 
 * [Installation](#installation)
 * [Activation](#activation)
@@ -41,7 +41,7 @@ $ php Thelia module:deactivate TheliaSmarty
 
 ### Usage
 
-Template files must be suffixed by ```.twig```, for example ```index.html.twig``` 
+Template files must be suffixed by ```.twig```, for example ```index.html.twig```
 
 The template structure is the same as the actual structure, so you can referer to the actual [documentation](http://doc.thelia.net/en/documentation/templates/introduction.html#structure-of-a-template)
 
@@ -259,16 +259,16 @@ locale | specific locale to use for this translation. Will override locale defin
 
 tag checking if a user has access granted.
 
-example : 
+example :
 
 ```
 {% auth {role: "CUSTOMER", login_tpl:"login"} %}
 ```
 
-Parameters : 
+Parameters :
 
 Parameters | Description
---- | --- 
+--- | ---
 role | In Thelia 2, a user can only have one of these two roles: ADMIN and/or CUSTOMER
 resource | if a user can access to a specific resource. See : http://doc.thelia.net/en/documentation/templates/security.html#resource
 module | Name of the module(s) which the user must have access
@@ -319,7 +319,7 @@ the brand function will find the brand linked to the product.
 
 #### cart
 
-list of implemented parameters : 
+list of implemented parameters :
 
 * count_product : number of products in the current cart
 * count_item : addition off all quantity for each products
@@ -329,7 +329,7 @@ list of implemented parameters :
 * is_virtual : if cart contains or not virutal products
 * total_vat : tax amount
 
-example : 
+example :
 
 ```
 <p>
@@ -400,17 +400,17 @@ Provides access to an attribute of the logged customer
 
 #### folder
 
- Provides access to an attribute of the current folder (folder_id in the query string). If the content_id parameter is in the query string, 
+ Provides access to an attribute of the current folder (folder_id in the query string). If the content_id parameter is in the query string,
  the default linked folder will be used.
- 
+
  ```
  <p>
     folder title : {{ folder('title') }}
  </p>
  ```
- 
+
 #### lang
- 
+
 Provides access to an attribute of the current lang saved in session
 
 ```
@@ -435,7 +435,7 @@ list of implemented parameters :
 * payment_module : payment module id
 * has_virtual_product : if order contains at least one virtual product
 
-example : 
+example :
 
 ```
 <p>
@@ -476,6 +476,122 @@ Inside the ```postage``` block this variables are defined :
 {% endpostage %}
 ```
 
+### format functions
+
+#### format_date
+
+return date in expected format
+
+available parameters :
+
+* params => Array :
+    * date : `DateTime` object (mandatory if timestamp is not present)
+    * timestamp : a Unix timestamp (mandatory if date is not present)
+    * format => will output the format with specific format (see date() function)
+    * output => list of default system format. Values available :
+        * date => date format
+        * time => time format
+        * datetime => datetime format (default)
+    * locale => format the date according to a specific locale (eg. fr_FR)
+
+```twig
+{% set myDate = date() %}
+{# format the date in datetime format for the current locale #}
+{{ format_date({date: myDate}) }}
+{# format the date in date format for the current locale #}
+{{ format_date({date: myDate, output:"date"}) }}
+{# format the date with a specific format (with the default locale on your system) #}
+{{ format_date({date: myDate, format:"Y-m-d H:i:s"}) }}
+{# format the date with a specific format with a specific locale #}
+{{ format_date({date: myDate, format:"D l F j", locale:"en_US"}) }}
+{{ format_date({date: myDate, format:"l F j", locale:"fr_FR"}) }}
+{# using a timestamp instead of a date #}
+{{ format_date({timestamp: myDate|date('U'), output:"datetime"}) }}
+```
+
+#### format_number
+
+return numbers in expected format
+
+available parameters :
+
+* params => Array :
+    * number => int or float number (mandatory)
+    * decimals => how many decimals format expected
+    * dec_point => separator for the decimal point
+    * thousands_sep => thousands separator
+
+```twig
+{# specific format #}
+{{ format_number({number:"1246.12", decimals:"1", dec_point:",", thousands_sep:" "}) }}
+{# format for the current locale #}
+{{ format_number({number:"1246.12"}) }}
+```
+
+#### format_money
+
+return money in expected format
+
+available parameters :
+
+* params => Array :
+    * number => int or float number (mandatory)
+    * decimals => how many decimals format expected
+    * dec_point => separator for the decimal point
+    * thousands_sep => thousands separator
+    * symbol => Currency symbol
+
+```twig
+{#  will output "1 246,1 €" #}
+{{ format_number({number:"1246.12", decimals:"1", dec_point:",", thousands_sep:" ", symbol:"€"}) }}
+```
+
+### flash messages
+
+#### has_flash
+
+Test if message exists for the given type.
+
+available parameters :
+
+* type (mandatory)
+
+```twig
+{% if has_flash('test') %}
+    {# do something #}
+{% endif %}
+```
+
+#### flash
+
+Get all messages or messages for the given type. After the call of the function
+flash messages are deleted.
+
+available parameter :
+
+* type : a specific type (string or null)
+    * if provided, get all messages for the given type and return an array of messages
+    * if not provided, get all flash messages. It will return an array. The key
+    will be the type and the value an array of associated messages
+
+```twig
+{% if has_flash('notice') %}
+    <div class="alert alert-notice">
+    {% for message in flash('notice') %}
+        {{ message }}<br>
+    {%  endfor %}
+    </div>
+{% endif %}
+
+% for type, messages in flash() %}
+    <div class="alert alert-{{ type }}">
+    {% for message in messages %}
+        {{ message }}<br>
+    {%  endfor %}
+    </div>
+{%  endfor %}
+```
+
 
 ### How to add your own extension
 
@@ -504,7 +620,8 @@ The tag ```thelia.parser.add_extension``` allows you to add your own twig extens
     * ~~navigate function~~
     * ~~set_previous_url function~~
 * Hook support
-* date and money format
+* ~~date and money format~~
+* ~~Flash messages~~
 * ~~cart postage~~
 * ~~DataAccessFunction~~
     * ~~admin~~
