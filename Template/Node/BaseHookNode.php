@@ -13,15 +13,14 @@
 namespace TheliaTwig\Template\Node;
 
 /**
- * Class IfLoop
+ * Class BaseHookNode
  * @package TheliaTwig\Template\Node
- * @author Manuel Raynaud <manu@thelia.net>
+ * @author Julien Chanséaume <julien@thelia.net>
  */
-class IfLoop extends BaseIfNode
+class BaseHookNode extends \Twig_Node
 {
-
-    protected $extensionName = 'loop';
-
-    protected $testFunction = 'loopHandler->checkEmptyLoop';
-
+    public function __construct(\Twig_Node $body, \Twig_Node $parameters, $lineno, $tag)
+    {
+        parent::__construct(['body' => $body, 'parameters' => $parameters], [], $lineno, $tag);
+    }
 }

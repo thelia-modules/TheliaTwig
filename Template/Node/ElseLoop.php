@@ -17,18 +17,9 @@ namespace TheliaTwig\Template\Node;
  * @package TheliaTwig\Template\Node
  * @author Manuel Raynaud <manu@thelia.net>
  */
-class ElseLoop extends BaseLoopNode
+class ElseLoop extends BaseElseNode
 {
-    public function compile(\Twig_Compiler $compiler)
-    {
-        $compiler->addDebugInfo($this);
+    protected $extensionName = 'loop';
 
-        $compiler->write("if (true === \$this->env->getExtension('loop')->loopHandler->checkEmptyLoop(");
-        $compiler->subcompile($this->getNode('parameters'));
-        $compiler->raw(")) {\n");
-        $compiler->indent();
-        $compiler->subcompile($this->getNode('body'));
-        $compiler->outdent();
-        $compiler->write("}");
-    }
+    protected $testFunction = 'loopHandler->checkEmptyLoop';
 }

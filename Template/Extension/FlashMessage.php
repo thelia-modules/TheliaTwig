@@ -31,14 +31,6 @@ class FlashMessage extends \Twig_Extension
     public function __construct(Request $request)
     {
         $this->request = $request;
-
-        $this->request->getSession()->getFlashBag()->setAll(
-            [
-                'test' => ['message test', 'message test - 2'],
-                'test1' => ['message test 1'],
-                'test2' => ['message test 2', 'message test 2 - 2', 'message test 2 - 3']
-            ]
-        );
     }
 
     public function getFunctions()
