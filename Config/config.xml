@@ -6,7 +6,6 @@
 
     <parameters>
         <parameter key="filesystem_loader.class">Twig_Loader_Filesystem</parameter>
-        <!--parameter key="filesystem_loader.class">TheliaTwig\Template\TwigTheliaLoader</parameter-->
     </parameters>
 
     <services>
