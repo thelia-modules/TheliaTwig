@@ -18,6 +18,9 @@ This module use [Twig](http://twig.sensiolabs.org) template engine as parser for
     * [Security](#security)
     * [Data access functions](#data-access-functions)
     * [Cart postage](#cart-postage)
+    * [Format functions](#format-functions)
+    * [Flash messages](#flash-messages)
+    * [Hooks](#hooks)
 * [Add your own twig extension](#how-to-add-your-own-extension)
 * [Roadmap](#roadmap)
 
@@ -583,7 +586,7 @@ available parameter :
     </div>
 {% endif %}
 
-% for type, messages in flash() %}
+{% for type, messages in flash() %}
     <div class="alert alert-{{ type }}">
     {% for message in messages %}
         {{ message }}<br>
@@ -591,7 +594,70 @@ available parameter :
     </div>
 {%  endfor %}
 ```
+### Hooks
 
+#### `hook` tags
+
+The tag ```hook``` allows you to get the content related to a specific hook
+specified by its name.
+
+available parameters :
+
+* params => Array :
+    * name => the hook name (mandatory)
+    * ... You can add as many parameters as you want. they will be available in
+        the hook event
+
+```twig
+{% hook {name: "hook_code", var1: "value1", var2: "value2", ... } %}
+```
+
+#### `hookblock` and `forhook` tags
+
+The tag ```hookblock``` allows you to get the content related to a specific hook
+specified by its name. The content is not injected directly, but has to be
+manipulated by a `forhook` tag.
+
+available parameters :
+
+* params => Array :
+    * name => the hook name (mandatory)
+    * fields => indicates the fields that you can add to the `hookblock` event
+    * ... You can add as many parameters as you want. they will be available in
+        the hook event
+
+The tag ```forhook``` iterates on the results of a `hookblock` tag. You should
+set the `rel` attribute to establish the link. *You can use the `forhook` multiple
+times*.
+
+```twig
+{% hookblock {name: "hookblock_code", fields: "id,title, content", var1: "value1", ... } %}
+{% forhook {rel: 'hookblock_code'} %}
+    <div id="{{ id }}">
+        <h2>{{ title }}</h2>
+        <p>{{ content|raw }}</p>
+    </div>
+{% endforhook %}
+```
+
+#### `ifhook` and `elsehook` tags
+
+These tags will test if `hook` or `hookblock` are empty or not.
+
+```twig
+{% ifhook {rel:"main.content-bottom"} %}
+    {# displayed if main.content-bottom is not empty #}
+    <hr class="space">
+    {% hook {name: "main.content-bottom"} %}
+    <hr class="space">
+{% endifhook %}
+
+{% elsehook {rel:"main.content-bottom"} %}
+    {# displayed if main.content-bottom is empty #}
+    <p><a href="#top">Back to top</a></p>
+{% endelsehook %}
+
+```
 
 ### How to add your own extension
 
