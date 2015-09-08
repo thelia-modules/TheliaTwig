@@ -4,21 +4,21 @@
         xsi:schemaLocation="http://thelia.net/schema/dic/module http://thelia.net/schema/dic/module/module-2_1.xsd">
     <fullnamespace>TheliaTwig\TheliaTwig</fullnamespace>
     <descriptive locale="en_US">
-        <title>Twig template engine integration</title>
+        <title>Twig template engine for Thelia</title>
     </descriptive>
     <descriptive locale="fr_FR">
-        <title>Intégration du moteur de template twig</title>
+        <title>Moteur de template Twig pour Thelia</title>
     </descriptive>
     <languages>
         <language>en_US</language>
         <language>fr_FR</language>
     </languages>
-    <version>0.1</version>
+    <version>0.2</version>
     <author>
         <name>Manuel Raynaud</name>
         <email>manu@thelia.net</email>
     </author>
     <type>classic</type>
-    <thelia>2.1.0</thelia>
+    <thelia>2.2.0</thelia>
     <stability>alpha</stability>
 </module>

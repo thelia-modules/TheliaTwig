@@ -13,6 +13,7 @@
 
         <service id="thelia.parser" class="TheliaTwig\Template\TwigParser" scope="request">
             <argument type="service" id="thelia.parser.context" />
+            <argument type="service" id="thelia.template_helper"/>
             <argument type="service" id="filesystem_loader"/>
             <argument type="collection">
                 <argument key="debug">%kernel.debug%</argument>
