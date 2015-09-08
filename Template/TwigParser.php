@@ -12,11 +12,10 @@
 
 namespace TheliaTwig\Template;
 
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Thelia\Core\Template\ParserContext;
 use Thelia\Core\Template\ParserInterface;
 use Thelia\Core\Template\TemplateDefinition;
+use Thelia\Core\Template\TemplateHelperInterface;
 use Thelia\Log\Tlog;
 
 /**
@@ -26,7 +25,6 @@ use Thelia\Log\Tlog;
  */
 class TwigParser extends \Twig_Environment implements ParserInterface
 {
-
     /** @var \Twig_Loader_Filesystem */
     protected $fileSystemLoader;
     protected $status = 200;
@@ -37,6 +35,9 @@ class TwigParser extends \Twig_Environment implements ParserInterface
 
     protected $templateDirectories = array();
 
+    /** @var TemplateHelperInterface */
+    protected $templateHelper;
+
     /** @var ParserContext  */
     protected $parserContext;
 
@@ -45,8 +46,12 @@ class TwigParser extends \Twig_Environment implements ParserInterface
      */
     protected $templateDefinition = "";
 
-    public function __construct(ParserContext $parserContext, \Twig_LoaderInterface $loader = null, $options = array())
-    {
+    public function __construct(
+        ParserContext $parserContext,
+        TemplateHelperInterface $templateHelper,
+        \Twig_LoaderInterface $loader = null,
+        $options = array()
+    ) {
         $this->fileSystemLoader = $loader;
         parent::__construct(null, $options);
 
@@ -55,8 +60,9 @@ class TwigParser extends \Twig_Environment implements ParserInterface
         }
 
         $this->parserContext = $parserContext;
-    }
 
+        $this->templateHelper = $templateHelper;
+    }
 
     public function render($realTemplateName, array $parameters = array(), $compressOutput = true)
     {
@@ -118,8 +124,6 @@ class TwigParser extends \Twig_Environment implements ParserInterface
 
         /* init template directories */
         $this->fileSystemLoader->setPaths(array());
-
-
 
         /* add modules template directories */
         $this->addTemplateDirectory(
@@ -221,5 +225,13 @@ class TwigParser extends \Twig_Environment implements ParserInterface
     public function assign($variable, $value)
     {
         $this->context[$variable] = $value;
+    }
+
+    /**
+     * @return \Thelia\Core\Template\TemplateHelperInterface the parser template helper instance
+     */
+    public function getTemplateHelper()
+    {
+        return $this->templateHelper;
     }
 }
