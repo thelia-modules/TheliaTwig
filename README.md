@@ -48,6 +48,8 @@ Template files must be suffixed by ```.twig```, for example ```index.html.twig``
 
 The template structure is the same as the actual structure, so you can referer to the actual [documentation](http://doc.thelia.net/en/documentation/templates/introduction.html#structure-of-a-template)
 
+You can test the module with this module : <https://github.com/bibich/TheliaTwigTest>
+
 ### Syntax
 
 #### Loop
