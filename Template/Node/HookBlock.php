@@ -13,15 +13,20 @@
 namespace TheliaTwig\Template\Node;
 
 /**
- * Class IfLoop
+ * Class HookBlock
  * @package TheliaTwig\Template\Node
  * @author Manuel Raynaud <manu@thelia.net>
  */
-class IfLoop extends BaseIfNode
+class HookBlock extends \Twig_Node
 {
+    public function compile(\Twig_Compiler $compiler)
+    {
+        $compiler->addDebugInfo($this);
 
-    protected $extensionName = 'loop';
+        $compiler->write("\$hook = \$this->env->getExtension('hook')->hookHandler->processHookBlock(\$context, ");
+        $compiler->subcompile($this->getNode('parameters'));
+        $compiler->raw(");\n");
+        $compiler->write("echo \$hook;\n");
 
-    protected $testFunction = 'loopHandler->checkEmptyLoop';
-
+    }
 }

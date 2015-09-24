@@ -20,12 +20,24 @@
             </argument>
         </service>
 
+        <!-- Loop -->
         <service id="thelia.parser.loop_handler" class="TheliaTwig\Template\Elements\LoopHandler">
             <argument type="service" id="service_container" />
         </service>
 
-        <service id="thelia.parser.loop_extension" class="TheliaTwig\Template\Extension\Loop">
+        <service id="thelia.parser.loop_extension" class="TheliaTwig\Template\Extension\Loop" >
             <argument type="service" id="thelia.parser.loop_handler" />
+            <tag name="thelia.parser.add_extension" />
+        </service>
+
+        <!-- Hook -->
+        <service id="thelia.parser.hook_handler" class="TheliaTwig\Template\Elements\HookHandler">
+            <argument type="service" id="service_container" />
+            <argument>%kernel.debug%</argument>
+        </service>
+
+        <service id="thelia.parser.hook_extension" class="TheliaTwig\Template\Extension\Hook">
+            <argument type="service" id="thelia.parser.hook_handler" />
             <tag name="thelia.parser.add_extension" />
         </service>
 
@@ -63,8 +75,19 @@
             <tag name="thelia.parser.add_extension" />
         </service>
 
+        <service id="thelia.parser.format" class="TheliaTwig\Template\Extension\Format" scope="request">
+            <argument type="service" id="request" />
+            <tag name="thelia.parser.add_extension" />
+        </service>
+
+        <service id="thelia.parser.flash_message_extension" class="TheliaTwig\Template\Extension\FlashMessage" scope="request">
+            <argument type="service" id="request" />
+            <tag name="thelia.parser.add_extension" />
+        </service>
+
         <service id="thelia.parser.helper" class="TheliaSmarty\Template\SmartyHelper" />
-        <service id="thelia.parser.asset.resolver" class="TheliaSmarty\Template\Assets\SmartyAssetsResolver" >
+
+        <service id="thelia.parser.asset.resolver" class="TheliaTwig\Template\Assets\TwigAssetsResolver" >
             <argument type="service" id="assetic.asset.manager" />
         </service>
     </services>

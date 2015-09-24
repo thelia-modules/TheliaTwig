@@ -60,6 +60,8 @@ class TwigParser extends \Twig_Environment implements ParserInterface
 
     public function render($realTemplateName, array $parameters = array(), $compressOutput = true)
     {
+        $realTemplateName = $this->normalizePath($realTemplateName);
+
         if (substr($realTemplateName, strlen($realTemplateName)-4) != "twig") {
             $realTemplateName .= ".twig";
         }
@@ -76,6 +78,21 @@ class TwigParser extends \Twig_Environment implements ParserInterface
         );
         $this->setLoader($loader);
         return parent::render('index.html', $parameters);
+    }
+
+    protected function normalizePath($fileName)
+    {
+        $paths = $this->fileSystemLoader->getPaths();
+
+        /** @noinspection PhpUnusedLocalVariableInspection */
+        foreach ($paths as $path) {
+            if (false !== $pos = strpos($fileName, $path)) {
+                $filename = str_replace($path, '', $fileName);
+                return $filename;
+            }
+        }
+
+        return $fileName;
     }
 
     /**
@@ -116,12 +133,11 @@ class TwigParser extends \Twig_Environment implements ParserInterface
     {
         $this->templateDefinition = $templateDefinition;
 
-        /* init template directories */
+        // init template directories
         $this->fileSystemLoader->setPaths(array());
 
 
-
-        /* add modules template directories */
+        // add modules template directories
         $this->addTemplateDirectory(
             $templateDefinition->getType(),
             $templateDefinition->getName(),
@@ -133,7 +149,7 @@ class TwigParser extends \Twig_Environment implements ParserInterface
         $type = $templateDefinition->getType();
         $name = $templateDefinition->getName();
 
-        /* do not pass array directly to addTemplateDir since we cant control on keys */
+        // do not pass array directly to addTemplateDir since we cant control on keys
         if (isset($this->templateDirectories[$type][$name])) {
             foreach ($this->templateDirectories[$type][$name] as $key => $directory) {
                 $this->fileSystemLoader->addPath($directory);
@@ -150,6 +166,7 @@ class TwigParser extends \Twig_Environment implements ParserInterface
                 }
             }
         }
+
     }
 
     /**
@@ -221,5 +238,13 @@ class TwigParser extends \Twig_Environment implements ParserInterface
     public function assign($variable, $value)
     {
         $this->context[$variable] = $value;
+    }
+
+    /**
+     * @return \Thelia\Core\Template\TemplateHelperInterface the parser template helper instance
+     */
+    public function getTemplateHelper()
+    {
+        // TODO: Implement getTemplateHelper() method.
     }
 }
